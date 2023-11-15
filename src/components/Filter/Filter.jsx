@@ -1,17 +1,26 @@
-import React from 'react';
-import { Label, Input } from './Filter.styled'
+import React, { useState } from 'react';
+import { Label, Input } from './Filter.styled';
 
-const Filter = ({ filter, onChange }) => (
-  <Label>
-    Find contacts by name:
-    <Input
-  type="text"
-  name="filter"
-  value={filter}
-  onChange={onChange}
-/>
+const Filter = ({ onChange }) => {
+  const [filter, setFilter] = useState('');
 
-  </Label>
-);
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setFilter(value);
+    onChange(value);
+  };
+
+  return (
+    <Label>
+      Find contacts by name:
+      <Input
+        type="text"
+        name="filter"
+        value={filter}
+        onChange={handleChange}
+      />
+    </Label>
+  );
+};
 
 export default Filter;

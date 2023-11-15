@@ -17,7 +17,7 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  const handleAddContact = (name, number) => {
+  const addContact = (name, number) => {
     const isNameExist = contacts.some((contact) => contact.name === name);
 
     if (isNameExist) {
@@ -25,13 +25,13 @@ const App = () => {
       return;
     }
 
-    const contact = {
+    const newContact = {
       id: nanoid(),
       name,
       number,
     };
 
-    setContacts((prevContacts) => [...prevContacts, contact]);
+    setContacts((prevContacts) => [...prevContacts, newContact]);
   };
 
   const handleFilterChange = (event) => {
@@ -39,7 +39,7 @@ const App = () => {
     setFilter(value);
   };
 
-  const handleDeleteContact = (id) => {
+  const deleteContact = (id) => {
     setContacts((prevContacts) => prevContacts.filter((contact) => contact.id !== id));
   };
 
@@ -50,10 +50,10 @@ const App = () => {
   return (
     <Container>
       <h1>Phonebook</h1>
-      <ContactForm onAddContact={handleAddContact} />
+      <ContactForm onAddContact={addContact} />
       <h2>Contacts</h2>
       <Filter filter={filter} onChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} onDeleteContact={handleDeleteContact} />
+      <ContactList contacts={filteredContacts} onDeleteContact={deleteContact} />
     </Container>
   );
 };

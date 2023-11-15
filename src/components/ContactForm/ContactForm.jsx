@@ -1,57 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Label } from './ContactForm.styled';
 
-
-class ContactForm extends Component {
-  state = {
+const ContactForm = ({ onAddContact }) => {
+  const [formData, setFormData] = useState({
     name: '',
     number: '',
-  };
+  });
 
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    const { name, number } = this.state;
+    const { name, number } = formData;
 
-    this.props.onAddContact(name, number);
+    onAddContact(name, number);
 
-    this.setState({ name: '', number: '' });
+    setFormData({ name: '', number: '' });
   };
 
-  render() {
-
-
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-            required
-          />
-        </Label>
-        <Label>
-          Number:
-          <input
-            type="tel"
-            name="number"
-            value={this.state.number}
-            onChange={this.handleChange}
-            required
-          />
-        </Label>
-        <Button type="submit">Add contact</Button>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Label>
+        Name:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </Label>
+      <Label>
+        Number:
+        <input
+          type="tel"
+          name="number"
+          value={formData.number}
+          onChange={handleChange}
+          required
+        />
+      </Label>
+      <Button type="submit">Add contact</Button>
+    </Form>
+  );
+};
 
 export default ContactForm;
